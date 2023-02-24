@@ -44,26 +44,29 @@ const complementString = (string, minLength, supplementaryString) => {
   return string;
 };
 
-
-// console.log(checkLenString('проверяемая строка', 20));
-// console.log(checkLenString('проверяемая строка', 18));
-// console.log(checkLenString('проверяемая строка', 10));
-
-// console.log(checkPalindrom('топот'));
-// console.log(checkPalindrom('ДовОд'));
-// console.log(checkPalindrom('Кекс'));
-// console.log(checkPalindrom('Лёша на полке клопа нашёл '));
-
-// console.log(extractIntegerFromString('2023 год'));
-// console.log(extractIntegerFromString('ECMAScript 2022'));
-// console.log(extractIntegerFromString('1 кефир, 0.5 батона'));
-// console.log(extractIntegerFromString('а я томат'));
-// console.log(extractIntegerFromString(2023));
-// console.log(extractIntegerFromString(-1));
-// console.log(extractIntegerFromString(1.5));
-
-// console.log(complementString('1', 2, '0'));
-// console.log(complementString('1', 4, '0'));
-// console.log(complementString('q', 4, 'werty'));
-// console.log(complementString('q', 4, 'we'));
-// console.log(complementString('qwerty', 4, '0'));
+const loadPhoto = (id) => {
+  const photo = {};
+  photo.id = id;
+  photo.url = `photos/${id}.jpg`;
+  photo.description = DESCRIPTION[id - 1];
+  photo.comments = [];
+  const commentCount = Math.floor(Math.random() * 8);
+  for (let i = 1; i <= commentCount; i++) {
+    let comment = {};
+    comment.id = id * 10 + i;
+    comment.avatar = `img/avatar-${Math.floor(Math.random() * 6 + 1)}.svg`;
+    const messageCount = Math.floor(Math.random() * 2 + 1);
+    comment.message = MESSAGES[Math.floor(Math.random() * 6)];
+    let message = comment.message;
+    for (let j = 2; j <= messageCount; j++) {
+      while (message === comment.message) {
+        message = MESSAGES[Math.floor(Math.random() * 6)];
+      }
+      comment.message += '\n';
+      comment.message += message;
+    }
+    comment.name = AUTHOR_NAME[Math.floor(Math.random() * 10)];
+    photo.comments.push(comment);
+  }
+  return photo;
+};
