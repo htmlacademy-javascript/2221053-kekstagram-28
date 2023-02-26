@@ -1,6 +1,6 @@
 //Функция для проверки длины строки. Она нам пригодится для валидации формы. Примеры использования функции:
 
-const checkLenString = (string, len) => typeof len === 'number' ? len >= string.length : NaN;
+const checkLenString = (string, len) => Number(len) >= string.length;
 
 //Функция для проверки, является ли строка палиндромом. Палиндром — это слово или фраза, которые одинаково читаются и слева направо и справа налево. Например:
 
@@ -44,29 +44,4 @@ const complementString = (string, minLength, supplementaryString) => {
   return string;
 };
 
-const loadPhoto = (id) => {
-  const photo = {};
-  photo.id = id;
-  photo.url = `photos/${id}.jpg`;
-  photo.description = DESCRIPTION[id - 1];
-  photo.comments = [];
-  const commentCount = Math.floor(Math.random() * 8);
-  for (let i = 1; i <= commentCount; i++) {
-    let comment = {};
-    comment.id = id * 10 + i;
-    comment.avatar = `img/avatar-${Math.floor(Math.random() * 6 + 1)}.svg`;
-    const messageCount = Math.floor(Math.random() * 2 + 1);
-    comment.message = MESSAGES[Math.floor(Math.random() * 6)];
-    let message = comment.message;
-    for (let j = 2; j <= messageCount; j++) {
-      while (message === comment.message) {
-        message = MESSAGES[Math.floor(Math.random() * 6)];
-      }
-      comment.message += '\n';
-      comment.message += message;
-    }
-    comment.name = AUTHOR_NAME[Math.floor(Math.random() * 10)];
-    photo.comments.push(comment);
-  }
-  return photo;
-};
+export {checkLenString, checkPalindrom, extractIntegerFromString, complementString};
