@@ -1,13 +1,4 @@
-import { Photo } from './class/Photo.mjs';
+import {PHOTO_COUNT} from './mocks/const.mjs';
+import {generatePhotos} from './mocks/generate.mjs';
 
-const generatePhotos = () => {
-  const photoArray = [];
-  for (let i = 1; i < 26; i++) {
-    photoArray.push(new Photo(i));
-  }
-  return photoArray;
-};
-
-const photos = generatePhotos();
-console.log(photos);
-
+const photos = generatePhotos(PHOTO_COUNT);

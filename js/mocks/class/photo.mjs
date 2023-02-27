@@ -1,4 +1,4 @@
-import {DESCRIPTION, MESSAGES, AUTHOR_NAME, CommentMaxData} from '../const.mjs';
+import {DESCRIPTION, MESSAGES, AUTHOR_NAME, commentMaxData} from '../const.mjs';
 import {checkLenString} from '../function.mjs';
 
 class Photo {
@@ -34,13 +34,13 @@ class Photo {
 
     const generateMessages = () => {
       let result = MESSAGES[Math.floor(Math.random() * MESSAGES.length)]
-      const messageCount = Math.floor(Math.random() * CommentMaxData.messageMaxCount + 1);
+      const messageCount = Math.floor(Math.random() * commentMaxData.MESSAGE_MAX_COUNT + 1);
       let message = result;
       for (let j = 2; j <= messageCount; j++) {
         while (message === result) {
           message = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
         }
-        if (checkLenString(`${result}${message}`, CommentMaxData.commentMaxLength + 1)) {
+        if (checkLenString(`${result}${message}`, commentMaxData.COMMENT_MAX_LENGTH + 1)) {
           result += ` ${message}`;
         }
       }
@@ -49,12 +49,12 @@ class Photo {
 
     const genId = generateIdComment();
     const comments = [];
-    const commentCount = Math.floor(Math.random() * CommentMaxData.commentsMaxCount + 1);
+    const commentCount = Math.floor(Math.random() * commentMaxData.COMMENT_MAX_COUNT + 1);
 
     for (let i = 1; i <= commentCount; i++) {
       const comment = {
         id: genId(),
-        avatar: `img/avatar-${Math.floor(Math.random() * CommentMaxData.avatarMaxId + 1)}.svg`,
+        avatar: `img/avatar-${Math.floor(Math.random() * commentMaxData.AVATAR_MAX_ID + 1)}.svg`,
         message: generateMessages(),
         name: AUTHOR_NAME[Math.floor(Math.random() * AUTHOR_NAME.length)]
       };
