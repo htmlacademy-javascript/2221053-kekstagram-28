@@ -1,4 +1,4 @@
-import { Photo } from './class/Photo.mjs';
+import { Photo } from './class/photo.mjs';
 
 const generatePhotos = (count) => {
   const photoArray = [];

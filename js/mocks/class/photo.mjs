@@ -33,7 +33,7 @@ class Photo {
     };
 
     const generateMessages = () => {
-      let result = MESSAGES[Math.floor(Math.random() * MESSAGES.length)]
+      let result = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
       const messageCount = Math.floor(Math.random() * commentMaxData.MESSAGE_MAX_COUNT + 1);
       let message = result;
       for (let j = 2; j <= messageCount; j++) {
