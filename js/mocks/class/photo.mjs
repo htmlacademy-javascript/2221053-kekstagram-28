@@ -1,5 +1,5 @@
-import {DESCRIPTION, MESSAGES, AUTHOR_NAME, CommentMaxData} from '../const.mjs';
-import {checkLenString} from '../function.mjs';
+import { DESCRIPTION, MESSAGES, AUTHOR_NAME, commentMaxData, MIN_LIKES, MAX_LIKES } from '../const.mjs';
+import { getRandomInteger } from '../../utils.mjs';
 
 class Photo {
   #url;
@@ -21,6 +21,7 @@ class Photo {
     this.#url = `photos/${id}.jpg`;
     this.description = DESCRIPTION[id - 1];
     this.comments = Photo.#generateComments();
+    this.likes = getRandomInteger(MIN_LIKES, MAX_LIKES);
   }
 
   static #generateComments() {
@@ -33,30 +34,28 @@ class Photo {
     };
 
     const generateMessages = () => {
-      let result = MESSAGES[Math.floor(Math.random() * MESSAGES.length)]
-      const messageCount = Math.floor(Math.random() * CommentMaxData.messageMaxCount + 1);
+      let result = MESSAGES[getRandomInteger(0, MESSAGES.length - 1)];
+      const messageCount = getRandomInteger(1, commentMaxData.MESSAGE_MAX_COUNT);
       let message = result;
       for (let j = 2; j <= messageCount; j++) {
         while (message === result) {
-          message = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+          message = MESSAGES[getRandomInteger(0, MESSAGES.length - 1)];
         }
-        if (checkLenString(`${result}${message}`, CommentMaxData.commentMaxLength + 1)) {
-          result += ` ${message}`;
-        }
+        result += ` ${message}`;
       }
       return result;
     };
 
     const genId = generateIdComment();
     const comments = [];
-    const commentCount = Math.floor(Math.random() * CommentMaxData.commentsMaxCount + 1);
+    const commentCount = getRandomInteger(0, commentMaxData.COMMENT_MAX_COUNT);
 
     for (let i = 1; i <= commentCount; i++) {
       const comment = {
         id: genId(),
-        avatar: `img/avatar-${Math.floor(Math.random() * CommentMaxData.avatarMaxId + 1)}.svg`,
+        avatar: `img/avatar-${getRandomInteger(0, commentMaxData.AVATAR_MAX_ID)}.svg`,
         message: generateMessages(),
-        name: AUTHOR_NAME[Math.floor(Math.random() * AUTHOR_NAME.length)]
+        name: AUTHOR_NAME[getRandomInteger(0, AUTHOR_NAME.length - 1)]
       };
       comments.push(comment);
     }

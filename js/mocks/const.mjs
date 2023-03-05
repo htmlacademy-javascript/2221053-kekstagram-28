@@ -37,11 +37,16 @@ const DESCRIPTION = [
   'Танки грязи не боятся... Правда это девиз нашего камаза, но сути не меняет.',
 ];
 
-const CommentMaxData = {
-  commentsMaxCount: 7,
-  avatarMaxId: 6,
-  commentMaxLength: 150,
-  messageMaxCount: 2
+const commentMaxData = {
+  COMMENT_MAX_COUNT: 28,
+  AVATAR_MAX_ID: 6,
+  COMMENT_MAX_LENGTH: 150,
+  MESSAGE_MAX_COUNT: 2,
 };
 
-export {MESSAGES, AUTHOR_NAME, DESCRIPTION, CommentMaxData};
+const MIN_LIKES = 15;
+const MAX_LIKES = 200;
+
+const PHOTO_COUNT = 25;
+
+export { MESSAGES, AUTHOR_NAME, DESCRIPTION, commentMaxData, PHOTO_COUNT, MIN_LIKES, MAX_LIKES };
