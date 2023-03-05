@@ -14,7 +14,7 @@ const listPhotoFragment = document.createDocumentFragment();
 const createTemplatePhoto = (photo) => {
   const pictureElement = templatePhoto.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = photo.url;
-  //Добавить количество лайков
+  pictureElement.querySelector('.picture__likes').textContent = photo.likes;
   pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
   return pictureElement;
 };

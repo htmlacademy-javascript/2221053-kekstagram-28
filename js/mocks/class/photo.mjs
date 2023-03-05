@@ -1,4 +1,4 @@
-import {DESCRIPTION, MESSAGES, AUTHOR_NAME, commentMaxData} from '../const.mjs';
+import { DESCRIPTION, MESSAGES, AUTHOR_NAME, commentMaxData, MIN_LIKES, MAX_LIKES } from '../const.mjs';
 import { getRandomInteger } from '../../utils.mjs';
 
 class Photo {
@@ -21,6 +21,7 @@ class Photo {
     this.#url = `photos/${id}.jpg`;
     this.description = DESCRIPTION[id - 1];
     this.comments = Photo.#generateComments();
+    this.likes = getRandomInteger(MIN_LIKES, MAX_LIKES);
   }
 
   static #generateComments() {
