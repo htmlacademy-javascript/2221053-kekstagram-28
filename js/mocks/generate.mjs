@@ -1,4 +1,5 @@
 import { Photo } from './class/photo.mjs';
+import { PHOTO_COUNT } from './const.mjs';
 
 const generatePhotos = (count) => {
   const photoArray = [];
@@ -8,4 +9,6 @@ const generatePhotos = (count) => {
   return photoArray;
 };
 
-export {generatePhotos};
+const photos = generatePhotos(PHOTO_COUNT);
+
+export { photos };
