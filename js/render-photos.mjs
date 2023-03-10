@@ -6,6 +6,7 @@ const createTemplatePhoto = (photo) => {
   const pictureElement = templatePhoto.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = photo.url;
   pictureElement.querySelector('.picture__img').setAttribute('data-id', photo.id);
+  pictureElement.querySelector('.picture__img').alt = photo.description;
   pictureElement.querySelector('.picture__likes').textContent = photo.likes;
   pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
   return pictureElement;
