@@ -7,7 +7,6 @@ const MODAL = document.querySelector('.big-picture');
 let commentsCountSee;
 let photoData = null;
 
-//генерация элемнта DOM содержащего 1 комментарий
 const renderComment = (comment) => {
   const elementComment = document.createElement('li');
   elementComment.classList.add('social__comment');
@@ -27,7 +26,6 @@ const renderComment = (comment) => {
   return elementComment;
 };
 
-//отрисовка списка комментариев
 const renderCommentList = (comments) => {
   const elementCommentsList = document.querySelector('.social__comments');
   if (comments.length > 0) {
@@ -40,10 +38,10 @@ const renderCommentList = (comments) => {
   MODAL.querySelector('.comments-count').textContent = comments.length;
 };
 
-//События для кнопки подгрузки комментариев
 function onButtonLoadCommentsClick() {
   renderCommentList(photoData.comments);
 }
+
 function onButtonLoadCommentsEnterKeydown(evt) {
   if (isEnter(evt.key)) {
     evt.preventDefault();
@@ -51,7 +49,6 @@ function onButtonLoadCommentsEnterKeydown(evt) {
   }
 }
 
-//функция закрытия окна просмотра фотографии
 const closeModalWindowPhoto = () => {
   const elementsPhoto = document.querySelectorAll('.picture');
   MODAL.classList.add('hidden');
@@ -65,24 +62,24 @@ const closeModalWindowPhoto = () => {
   }
 };
 
-//событие закрытия окна просмотра фотографии
 function onModalPhotoWindowEscKeydown(evt) {
   if (isEsc(evt.key)) {
     evt.preventDefault();
     closeModalWindowPhoto();
   }
 }
+
 function onButtonCloseModalPhotoWindowEnterKeydown(evt) {
   if (isEnter(evt.key)) {
     evt.preventDefault();
     closeModalWindowPhoto();
   }
 }
+
 function onButtonCloseModalPhotoWindowClick() {
   closeModalWindowPhoto();
 }
 
-//функция отрытия окна просмотра фотографии
 const ShowModalPhotoWindow = (photoElement) => {
   const id = photoElement.getAttribute('data-id');
   photoData = photos.find((item) => item.id === +id);
@@ -109,7 +106,6 @@ const ShowModalPhotoWindow = (photoElement) => {
   MODAL.classList.remove('hidden');
 };
 
-//функция активации событий для списка фотографий
 const showModalPhotoSee = () => {
   const elementPhotos = document.querySelector('.pictures');
   elementPhotos.addEventListener('click', (evt) => {
