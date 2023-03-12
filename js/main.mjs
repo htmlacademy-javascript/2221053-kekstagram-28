@@ -1,8 +1,6 @@
-import { PHOTO_COUNT } from './mocks/const.mjs';
-import { generatePhotos } from './mocks/generate.mjs';
-import { renderPhotoList } from './render-photo.mjs';
+import { photos } from './mocks/generate.mjs';
+import { renderUserPhotos } from './render-photos.mjs';
+import { showModalPhotoSee } from './modalfhotosee.mjs';
 
-const photos = generatePhotos(PHOTO_COUNT);
-const photosElement = document.querySelector('.pictures');
-
-photosElement.appendChild(renderPhotoList(photos));
+renderUserPhotos(photos);
+showModalPhotoSee();

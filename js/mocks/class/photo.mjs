@@ -53,7 +53,7 @@ class Photo {
     for (let i = 1; i <= commentCount; i++) {
       const comment = {
         id: genId(),
-        avatar: `img/avatar-${getRandomInteger(0, commentMaxData.AVATAR_MAX_ID)}.svg`,
+        avatar: `img/avatar-${getRandomInteger(1, commentMaxData.AVATAR_MAX_ID)}.svg`,
         message: generateMessages(),
         name: AUTHOR_NAME[getRandomInteger(0, AUTHOR_NAME.length - 1)]
       };

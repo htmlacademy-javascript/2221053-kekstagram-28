@@ -1,19 +1,12 @@
-{/* <template id="picture">
-<a href="#" class="picture">
-  <img class="picture__img" src="" width="182" height="182" alt="Случайная фотография">
-  <p class="picture__info">
-    <span class="picture__comments"></span>
-    <span class="picture__likes"></span>
-  </p>
-</a>
-</template> */}
-
 const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
+const photosElement = document.querySelector('.pictures');
 const listPhotoFragment = document.createDocumentFragment();
 
 const createTemplatePhoto = (photo) => {
   const pictureElement = templatePhoto.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = photo.url;
+  pictureElement.querySelector('.picture__img').setAttribute('data-id', photo.id);
+  pictureElement.querySelector('.picture__img').alt = photo.description;
   pictureElement.querySelector('.picture__likes').textContent = photo.likes;
   pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
   return pictureElement;
@@ -26,4 +19,8 @@ const renderPhotoList = (list) => {
   return listPhotoFragment;
 };
 
-export { renderPhotoList };
+const renderUserPhotos = (photos) => {
+  photosElement.appendChild(renderPhotoList(photos));
+};
+
+export { renderUserPhotos };
