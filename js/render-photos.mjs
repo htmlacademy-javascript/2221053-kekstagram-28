@@ -1,6 +1,5 @@
 const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
 const photosElement = document.querySelector('.pictures');
-const listPhotoFragment = document.createDocumentFragment();
 
 const createTemplatePhoto = (photo) => {
   const pictureElement = templatePhoto.cloneNode(true);
@@ -13,6 +12,7 @@ const createTemplatePhoto = (photo) => {
 };
 
 const renderPhotoList = (list) => {
+  const listPhotoFragment = document.createDocumentFragment();
   list.forEach((photo) => {
     listPhotoFragment.appendChild(createTemplatePhoto(photo));
   });
