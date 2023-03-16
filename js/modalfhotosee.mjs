@@ -25,6 +25,16 @@ const renderComment = (comment) => {
   return elementComment;
 };
 
+/**
+ * Функция скрывает кнопку 'Загрузить еще'. если отображены все комментарии
+ * @param {List} comments - список комментариев к фотографии
+ */
+const hiddenCommentsLoader = (comments) => {
+  if (modal.querySelector('.social__comment-count').firstChild.nodeValue === `${comments.length} из `) {
+    modal.querySelector('.social__comments-loader').classList.add('hidden');
+  }
+};
+
 const renderCommentList = (comments) => {
   const elementCommentsList = document.querySelector('.social__comments');
   const fragmentComments = new DocumentFragment();
@@ -37,10 +47,12 @@ const renderCommentList = (comments) => {
   numberCommentsDisplayed += Math.min(COMMENT_COUNT_ADDED, comments.length - numberCommentsDisplayed);
   modal.querySelector('.social__comment-count').firstChild.nodeValue = `${numberCommentsDisplayed} из `;
   modal.querySelector('.comments-count').textContent = comments.length;
+  hiddenCommentsLoader(comments);
 };
 
 function onButtonLoadCommentsClick() {
   renderCommentList(photoData.comments);
+  hiddenCommentsLoader(photoData.comments);
 }
 
 function onButtonLoadCommentsEnterKeydown(evt) {
@@ -61,6 +73,7 @@ const closemodalWindowPhoto = () => {
   for (const element of elementsPhoto) {
     element.tabIndex = -1;
   }
+  modal.querySelector('.social__comments-loader').classList.remove('hidden');
 };
 
 function onmodalPhotoWindowEscKeydown(evt) {
