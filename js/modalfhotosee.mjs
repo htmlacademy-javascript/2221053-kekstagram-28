@@ -1,4 +1,4 @@
-import { photos } from './mocks/generate.mjs';
+//import { photos } from './main.mjs';
 import { isEsc, isEnter } from './utils.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
@@ -80,7 +80,7 @@ function onButtonCloseModalPhotoWindowClick() {
   closeModalWindowPhoto();
 }
 
-const ShowModalPhotoWindow = (photoElement) => {
+const ShowModalPhotoWindow = (photoElement, photos) => {
   const id = photoElement.getAttribute('data-id');
   photoData = photos.find((item) => item.id === +id);
 
@@ -106,18 +106,18 @@ const ShowModalPhotoWindow = (photoElement) => {
   MODAL.classList.remove('hidden');
 };
 
-const showModalPhotoSee = () => {
+const showModalPhotoSee = (photos) => {
   const elementPhotos = document.querySelector('.pictures');
   elementPhotos.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('picture__img')) {
       evt.preventDefault();
-      ShowModalPhotoWindow(evt.target);
+      ShowModalPhotoWindow(evt.target, photos);
     }
   });
   elementPhotos.parentElement.addEventListener('keydown', (evt) => {
     if (isEnter(evt.key)) {
       evt.preventDefault();
-      ShowModalPhotoWindow(evt.target.querySelector('.picture__img'));
+      ShowModalPhotoWindow(evt.target.querySelector('.picture__img'), photos);
     }
   });
 };
