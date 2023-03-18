@@ -2,6 +2,11 @@ import { isEsc, isEnter } from './utils.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
 const modal = document.querySelector('.big-picture');
+const numberCommentForPhoto = modal.querySelector('.social__comment-count');
+const buttonCommentsLoader = modal.querySelector('.social__comments-loader');
+const buttonCloseModal = modal.querySelector('.big-picture__cancel');
+const elementsPhoto = document.querySelectorAll('.picture');
+
 
 let numberCommentsDisplayed;
 let photoData = null;
@@ -30,8 +35,8 @@ const renderComment = (comment) => {
  * @param {List} comments - список комментариев к фотографии
  */
 const hiddenCommentsLoader = (comments) => {
-  if (modal.querySelector('.social__comment-count').firstChild.nodeValue === `${comments.length} из `) {
-    modal.querySelector('.social__comments-loader').classList.add('hidden');
+  if (numberCommentForPhoto.firstChild.nodeValue === `${comments.length} из `) {
+    buttonCommentsLoader.classList.add('hidden');
   }
 };
 
@@ -45,7 +50,7 @@ const renderCommentList = (comments) => {
     elementCommentsList.appendChild(fragmentComments);
   }
   numberCommentsDisplayed += Math.min(COMMENT_COUNT_ADDED, comments.length - numberCommentsDisplayed);
-  modal.querySelector('.social__comment-count').firstChild.nodeValue = `${numberCommentsDisplayed} из `;
+  numberCommentForPhoto.firstChild.nodeValue = `${numberCommentsDisplayed} из `;
   modal.querySelector('.comments-count').textContent = comments.length;
   hiddenCommentsLoader(comments);
 };
@@ -63,17 +68,16 @@ function onButtonLoadCommentsEnterKeydown(evt) {
 }
 
 const closemodalWindowPhoto = () => {
-  const elementsPhoto = document.querySelectorAll('.picture');
   modal.classList.add('hidden');
-  modal.querySelector('.social__comments-loader').removeEventListener('click', onButtonLoadCommentsClick);
-  modal.querySelector('.social__comments-loader').removeEventListener('keydown', onButtonLoadCommentsEnterKeydown);
+  buttonCommentsLoader.removeEventListener('click', onButtonLoadCommentsClick);
+  buttonCommentsLoader.removeEventListener('keydown', onButtonLoadCommentsEnterKeydown);
   document.removeEventListener('keydown', onmodalPhotoWindowEscKeydown);
-  modal.querySelector('.big-picture__cancel').removeEventListener('click', onButtonClosemodalPhotoWindowClick);
-  modal.querySelector('.big-picture__cancel').removeEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
+  buttonCloseModal.removeEventListener('click', onButtonClosemodalPhotoWindowClick);
+  buttonCloseModal.removeEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
   for (const element of elementsPhoto) {
     element.tabIndex = -1;
   }
-  modal.querySelector('.social__comments-loader').classList.remove('hidden');
+  buttonCommentsLoader.classList.remove('hidden');
 };
 
 function onmodalPhotoWindowEscKeydown(evt) {
@@ -99,24 +103,23 @@ function onButtonClosemodalPhotoWindowClick() {
 */
 const generatedContenetModal = () => {
   modal.querySelector('.social__comments').remove();
-  modal.querySelector('.social__comment-count').insertAdjacentHTML('afterend', '<ul class="social__comments"></ul>');
+  numberCommentForPhoto.insertAdjacentHTML('afterend', '<ul class="social__comments"></ul>');
 
   modal.querySelector('.big-picture__img').querySelector('img').src = photoData.url;
   modal.querySelector('.likes-count').textContent = photoData.likes;
   renderCommentList(photoData.comments);
 
-  modal.querySelector('.big-picture__cancel').addEventListener('click', onButtonClosemodalPhotoWindowClick);
+  buttonCloseModal.addEventListener('click', onButtonClosemodalPhotoWindowClick);
   document.addEventListener('keydown', onmodalPhotoWindowEscKeydown);
-  modal.querySelector('.big-picture__cancel').addEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
-  modal.querySelector('.social__comments-loader').addEventListener('click', onButtonLoadCommentsClick);
-  modal.querySelector('.social__comments-loader').addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
+  buttonCloseModal.addEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
+  buttonCommentsLoader.addEventListener('click', onButtonLoadCommentsClick);
+  buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
 };
 
 const ShowModalPhotoWindow = (photoElement, photos) => {
   const id = photoElement.getAttribute('data-id');
   photoData = photos.find((item) => item.id === +id);
 
-  const elementsPhoto = document.querySelectorAll('.picture');
   for (const element of elementsPhoto) {
     element.tabIndex = -1;
   }
