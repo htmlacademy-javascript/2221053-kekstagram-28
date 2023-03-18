@@ -5,7 +5,6 @@ const modal = document.querySelector('.big-picture');
 const numberCommentForPhoto = modal.querySelector('.social__comment-count');
 const buttonCommentsLoader = modal.querySelector('.social__comments-loader');
 const buttonCloseModal = modal.querySelector('.big-picture__cancel');
-const elementsPhoto = document.querySelectorAll('.picture');
 
 
 let numberCommentsDisplayed;
@@ -74,9 +73,6 @@ const closemodalWindowPhoto = () => {
   document.removeEventListener('keydown', onmodalPhotoWindowEscKeydown);
   buttonCloseModal.removeEventListener('click', onButtonClosemodalPhotoWindowClick);
   buttonCloseModal.removeEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
-  for (const element of elementsPhoto) {
-    element.tabIndex = -1;
-  }
   buttonCommentsLoader.classList.remove('hidden');
 };
 
@@ -119,10 +115,6 @@ const generatedContenetModal = () => {
 const ShowModalPhotoWindow = (photoElement, photos) => {
   const id = photoElement.getAttribute('data-id');
   photoData = photos.find((item) => item.id === +id);
-
-  for (const element of elementsPhoto) {
-    element.tabIndex = -1;
-  }
 
   numberCommentsDisplayed = 0;
 
