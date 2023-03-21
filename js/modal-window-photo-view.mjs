@@ -122,7 +122,7 @@ const ShowModalPhotoWindow = (photoElement, photos) => {
   modal.classList.remove('hidden');
 };
 
-const addedHandlerPhotomodalWindow = (photos) => {
+const addedHandlerPhotMmodalWindow = (photos) => {
   const elementPhotos = document.querySelector('.pictures');
   elementPhotos.addEventListener('click', (evt) => {
     evt.preventDefault();
@@ -136,4 +136,4 @@ const addedHandlerPhotomodalWindow = (photos) => {
   });
 };
 
-export { addedHandlerPhotomodalWindow };
+export { addedHandlerPhotMmodalWindow };
