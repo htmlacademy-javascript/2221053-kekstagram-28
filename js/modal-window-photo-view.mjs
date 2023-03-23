@@ -1,10 +1,12 @@
 import { isEsc, isEnter } from './utils.mjs';
+//import { buttonLoadElement } from './working-form.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
 const modal = document.querySelector('.big-picture');
 const numberCommentForPhoto = modal.querySelector('.social__comment-count');
 const buttonCommentsLoader = modal.querySelector('.social__comments-loader');
 const buttonCloseModal = modal.querySelector('.big-picture__cancel');
+const elementPhotos = document.querySelector('.pictures');
 
 
 let numberCommentsDisplayed;
@@ -70,13 +72,13 @@ const closemodalWindowPhoto = () => {
   modal.classList.add('hidden');
   buttonCommentsLoader.removeEventListener('click', onButtonLoadCommentsClick);
   buttonCommentsLoader.removeEventListener('keydown', onButtonLoadCommentsEnterKeydown);
-  document.removeEventListener('keydown', onmodalPhotoWindowEscKeydown);
+  document.removeEventListener('keydown', onModalPhotoWindowEscKeydown);
   buttonCloseModal.removeEventListener('click', onButtonClosemodalPhotoWindowClick);
   buttonCloseModal.removeEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
   buttonCommentsLoader.classList.remove('hidden');
 };
 
-function onmodalPhotoWindowEscKeydown(evt) {
+function onModalPhotoWindowEscKeydown(evt) {
   if (isEsc(evt.key)) {
     evt.preventDefault();
     closemodalWindowPhoto();
@@ -106,7 +108,7 @@ const generatedContenetModal = () => {
   renderCommentList(photoData.comments);
 
   buttonCloseModal.addEventListener('click', onButtonClosemodalPhotoWindowClick);
-  document.addEventListener('keydown', onmodalPhotoWindowEscKeydown);
+  document.addEventListener('keydown', onModalPhotoWindowEscKeydown);
   buttonCloseModal.addEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
   buttonCommentsLoader.addEventListener('click', onButtonLoadCommentsClick);
   buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
@@ -122,18 +124,19 @@ const ShowModalPhotoWindow = (photoElement, photos) => {
   modal.classList.remove('hidden');
 };
 
-const addedHandlerPhotMmodalWindow = (photos) => {
-  const elementPhotos = document.querySelector('.pictures');
-  elementPhotos.addEventListener('click', (evt) => {
+function onClickUserPhoto(evt) {
+  if (evt.target.classList.contains('picture__img')) {
     evt.preventDefault();
-    ShowModalPhotoWindow(evt.target, photos);
-  });
-  elementPhotos.parentElement.addEventListener('keydown', (evt) => {
-    if (isEnter(evt.key)) {
-      evt.preventDefault();
-      ShowModalPhotoWindow(evt.target.querySelector('.picture__img'), photos);
-    }
-  });
-};
+    ShowModalPhotoWindow(evt.target, this.photoList);
+  }
+}
 
-export { addedHandlerPhotMmodalWindow };
+function onKeyDownUserPhoto(evt) {
+  if (isEnter(evt.key)) {
+    evt.preventDefault();
+    ShowModalPhotoWindow(evt.target.querySelector('.picture__img'), this.photoList);
+  }
+}
+
+
+export { onClickUserPhoto, onKeyDownUserPhoto, elementPhotos };
