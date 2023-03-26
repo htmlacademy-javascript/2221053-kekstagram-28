@@ -34,7 +34,32 @@ const closedOverlayBlock = () => {
   hashTagInputElement.removeEventListener('keydown', {handleEvent: onInputElementKeydown});
   descriptionInputElement.removeEventListener('keydown', {handleEvent: onInputElementKeydown});
   form.removeEventListener('submit', {handleEvent: onFormSubmit});
+  fieldScaleElement.removeEventListener('click', {handleEvent: onFieldScaleElementClick});
+  fieldScaleElement.removeEventListener('keydown', {handleEvent: onFieldScaleElementKeydown});
 };
+
+const changeSizePhotoPreview = (evt) => {
+  const minValue = 0;
+  const maxValue = 100;
+  const step = 25;
+  let newValue;
+  switch (true) {
+    case evt.target.classList.contains('scale__control--smaller'): {
+      newValue = parseFloat(scalePhotoValueElement.value) - step;
+      break;
+    }
+    case evt.target.classList.contains('scale__control--bigger'): {
+      newValue = parseFloat(scalePhotoValueElement.value) + step;
+      break;
+    }
+  }
+  newValue = Math.min(maxValue, newValue);
+  newValue = Math.max(minValue, newValue);
+
+  scalePhotoValueElement.value = `${newValue}%`;
+
+  photoPreviewElement.style = `transform: scale(${newValue / 100})`;
+}
 
 function onOverlayButtonCloseClick() {
   closedOverlayBlock();
@@ -72,25 +97,13 @@ function onInputElementKeydown(evt) {
 }
 
 function onFieldScaleElementClick(evt) {
-  const minValue = 0;
-  const maxValue = 100;
-  let changeScale;
-  switch (true) {
-    case evt.target.classList.contains('scale__control--smaller'): {
-      changeScale = -25;
-      break;
-    }
-    case evt.target.classList.contains('scale__control--bigger'): {
-      changeScale = 25;
-      break;
-    }
-  }
-  let newValue = parseFloat(scalePhotoValueElement.value) + changeScale;
-  newValue = Math.min(maxValue, newValue);
-  newValue = Math.max(minValue, newValue);
-  scalePhotoValueElement.value = `${newValue}%`;
+  changeSizePhotoPreview(evt);
+}
 
-  photoPreviewElement.style = `transform: scale(${newValue / 100})`;
+function onFieldScaleElementKeydown(evt) {
+  if (isEnter(evt.key)) {
+    changeSizePhotoPreview(evt);
+  }
 }
 
 /**
@@ -146,6 +159,7 @@ const onButtonLoadChange = () => {
   document.addEventListener('keydown', onDocumentKeyDown);
   form.addEventListener('submit', {handleEvent: onFormSubmit});
   fieldScaleElement.addEventListener('click', {handleEvent: onFieldScaleElementClick});
+  fieldScaleElement.addEventListener('keydown', {handleEvent: onFieldScaleElementKeydown});
 
   pristine.addValidator(hashTagInputElement, checkHashTagsCount, 'Максимум 5 хэш-тегов.');
   pristine.addValidator(hashTagInputElement, checkHashTagsCorrect, 'Хэш-тег должен начинаться с # и быть не длиннее 20 симовлов.');
