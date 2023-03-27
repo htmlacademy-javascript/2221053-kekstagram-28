@@ -1,6 +1,10 @@
 import { isEnter, isEsc } from './utils.mjs';
+import { createSlider, resetEffectsData } from './effect-photo.mjs';
 
 const MAX_HASH_TAGS_COUNT = 5;
+const MIN_VALUE = 25;
+const MAX_VALUE = 100;
+const STEP = 25;
 
 const form = document.querySelector('.img-upload__form');
 const inputLoadElement = form.querySelector('#upload-file');
@@ -36,30 +40,28 @@ const closedOverlayBlock = () => {
   form.removeEventListener('submit', {handleEvent: onFormSubmit});
   fieldScaleElement.removeEventListener('click', {handleEvent: onFieldScaleElementClick});
   fieldScaleElement.removeEventListener('keydown', {handleEvent: onFieldScaleElementKeydown});
+  resetEffectsData();
 };
 
 const changeSizePhotoPreview = (evt) => {
-  const minValue = 0;
-  const maxValue = 100;
-  const step = 25;
   let newValue;
   switch (true) {
     case evt.target.classList.contains('scale__control--smaller'): {
-      newValue = parseFloat(scalePhotoValueElement.value) - step;
+      newValue = parseInt(scalePhotoValueElement.value, 10) - STEP;
       break;
     }
     case evt.target.classList.contains('scale__control--bigger'): {
-      newValue = parseFloat(scalePhotoValueElement.value) + step;
+      newValue = parseInt(scalePhotoValueElement.value, 10) + STEP;
       break;
     }
   }
-  newValue = Math.min(maxValue, newValue);
-  newValue = Math.max(minValue, newValue);
+  newValue = Math.min(MAX_VALUE, newValue);
+  newValue = Math.max(MIN_VALUE, newValue);
 
   scalePhotoValueElement.value = `${newValue}%`;
 
   photoPreviewElement.style = `transform: scale(${newValue / 100})`;
-}
+};
 
 function onOverlayButtonCloseClick() {
   closedOverlayBlock();
@@ -151,6 +153,7 @@ const checkUniquenessHachTags = () => {
 };
 
 const onButtonLoadChange = () => {
+  createSlider();
   overlayBlockElement.classList.remove('hidden');
   hashTagInputElement.addEventListener('keydown', {handleEvent: onInputElementKeydown});
   descriptionInputElement.addEventListener('keydown', {handleEvent: onInputElementKeydown});
