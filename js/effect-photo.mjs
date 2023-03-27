@@ -44,6 +44,7 @@ const rangeValue = {
 let currentEffect;
 
 const form = document.querySelector('.img-upload__form');
+const sliderContainer = form.querySelector('.img-upload__effect-level');
 const effectLevelSlider = form.querySelector('.effect-level__slider');
 const valueEffectLevel = form.querySelector('.effect-level__value');
 const photoPreviewElement = form.querySelector('.img-upload__preview'); //Превью фотографии
@@ -70,11 +71,11 @@ const setNewEffect = (sliderValue) => {
 const onFormChange = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
     if (evt.target.id === 'effect-none') {
-      effectLevelSlider.setAttribute('hidden', 'true');
+      sliderContainer.setAttribute('hidden', 'true');
       currentEffect = 'none';
     } else {
       currentEffect = evt.target.id.replace('effect-','');
-      effectLevelSlider.removeAttribute('hidden');
+      sliderContainer.removeAttribute('hidden');
       effectLevelSlider.noUiSlider.updateOptions(rangeValue[currentEffect]);
     }
     setNewEffect(effectLevelSlider.noUiSlider.get());
@@ -106,7 +107,7 @@ const createSlider = () => {
     setNewEffect(sliderValue);
   });
 
-  effectLevelSlider.setAttribute('hidden', 'true');
+  sliderContainer.setAttribute('hidden', 'true');
 
   form.addEventListener('change', {handleEvent: onFormChange});
 };
