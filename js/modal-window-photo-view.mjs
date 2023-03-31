@@ -74,6 +74,7 @@ const closemodalWindowPhoto = () => {
   buttonCloseModal.removeEventListener('click', onButtonClosemodalPhotoWindowClick);
   buttonCloseModal.removeEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
   buttonCommentsLoader.classList.remove('hidden');
+  document.body.classList.remove('modal-open');
 };
 
 function onModalPhotoWindowEscKeydown(evt) {

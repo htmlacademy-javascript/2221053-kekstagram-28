@@ -1,5 +1,11 @@
+import { isEnter } from './utils.mjs';
+
+const MIN_VALUE = 25;
+const MAX_VALUE = 100;
+const STEP = 25;
+
 const rangeValue = {
-  'chrome': {
+  chrome: {
     range: {
       min: 0,
       max: 1,
@@ -7,7 +13,7 @@ const rangeValue = {
     start: 1,
     step: 0.1,
   },
-  'sepia': {
+  sepia: {
     range: {
       min: 0,
       max: 1,
@@ -15,7 +21,7 @@ const rangeValue = {
     start: 1,
     step: 0.1,
   },
-  'marvin': {
+  marvin: {
     range: {
       min: 0,
       max: 100,
@@ -23,7 +29,7 @@ const rangeValue = {
     start: 100,
     step: 1,
   },
-  'phobos': {
+  phobos: {
     range: {
       min: 0,
       max: 3,
@@ -31,7 +37,7 @@ const rangeValue = {
     start: 3,
     step: 0.1,
   },
-  'heat': {
+  heat: {
     range: {
       min: 1,
       max: 3,
@@ -47,6 +53,39 @@ const sliderContainer = form.querySelector('.img-upload__effect-level');
 const effectLevelSlider = form.querySelector('.effect-level__slider');
 const valueEffectLevel = form.querySelector('.effect-level__value');
 const photoPreviewElement = form.querySelector('.img-upload__preview'); //Превью фотографии
+const fieldScaleElement = form.querySelector('.scale');//Блок для задания масштаба изображения
+const scalePhotoValueElement = fieldScaleElement.querySelector('.scale__control--value'); //значение масштаба изображения
+
+
+const changeSizePhotoPreview = (evt) => {
+  let newValue;
+  switch (true) {
+    case evt.target.classList.contains('scale__control--smaller'): {
+      newValue = parseInt(scalePhotoValueElement.value, 10) - STEP;
+      break;
+    }
+    case evt.target.classList.contains('scale__control--bigger'): {
+      newValue = parseInt(scalePhotoValueElement.value, 10) + STEP;
+      break;
+    }
+  }
+  newValue = Math.min(MAX_VALUE, newValue);
+  newValue = Math.max(MIN_VALUE, newValue);
+
+  scalePhotoValueElement.value = `${newValue}%`;
+
+  photoPreviewElement.style.transform = `scale(${newValue / 100})`;
+};
+
+function onFieldScaleElementClick(evt) {
+  changeSizePhotoPreview(evt);
+}
+
+function onFieldScaleElementKeydown(evt) {
+  if (isEnter(evt.key)) {
+    changeSizePhotoPreview(evt);
+  }
+}
 
 /**
  * Функция устанавливает новый эффект на фотографию
@@ -54,17 +93,14 @@ const photoPreviewElement = form.querySelector('.img-upload__preview'); //Пре
  */
 const setNewEffect = (sliderValue) => {
   const effectStyle = {
-    'chrome': `filter: grayscale(${sliderValue})`,
-    'sepia': `filter: sepia(${sliderValue})`,
-    'marvin': `filter: invert(${sliderValue}%)`,
-    'phobos': `filter: blur(${sliderValue}px)`,
-    'heat': `filter: brightness(${sliderValue})`
+    none: 'none',
+    chrome: `grayscale(${sliderValue})`,
+    sepia: `sepia(${sliderValue})`,
+    marvin: `invert(${sliderValue}%)`,
+    phobos: `blur(${sliderValue}px)`,
+    heat: `brightness(${sliderValue})`
   };
-  if (currentEffect === 'none') {
-    photoPreviewElement.style.filter = 'none';
-  } else {
-    photoPreviewElement.style.cssText = effectStyle[currentEffect];
-  }
+  photoPreviewElement.style.filter = effectStyle[currentEffect];
 };
 
 const onFormChange = (evt) => {
@@ -84,8 +120,10 @@ const onFormChange = (evt) => {
 
 const resetEffectsData = () => {
   document.querySelector('#effect-none').setAttribute('checked', 'true');
-  form.removeEventListener('change', {handleEvent: onFormChange});
   effectLevelSlider.noUiSlider.destroy();
+  photoPreviewElement.style.filter = 'none';
+  scalePhotoValueElement.value = '100%';
+  currentEffect = 'none';
 };
 
 /**
@@ -110,7 +148,6 @@ const createSlider = () => {
 
   sliderContainer.setAttribute('hidden', 'true');
 
-  form.addEventListener('change', {handleEvent: onFormChange});
 };
 
-export { createSlider, resetEffectsData };
+export { createSlider, resetEffectsData, onFormChange, onFieldScaleElementClick, onFieldScaleElementKeydown };
