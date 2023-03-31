@@ -103,7 +103,6 @@ const createSlider = () => {
   });
 
   effectLevelSlider.noUiSlider.on('update', () => {
-    // document.querySelector('#effect-none').checked = true;
     const sliderValue = effectLevelSlider.noUiSlider.get();
     valueEffectLevel.value = sliderValue;
     setNewEffect(sliderValue);
