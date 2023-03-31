@@ -153,6 +153,7 @@ const checkUniquenessHachTags = () => {
 };
 
 const onButtonLoadChange = () => {
+  document.querySelector('#effect-none').checked = true;
   createSlider();
   overlayBlockElement.classList.remove('hidden');
   hashTagInputElement.addEventListener('keydown', {handleEvent: onInputElementKeydown});

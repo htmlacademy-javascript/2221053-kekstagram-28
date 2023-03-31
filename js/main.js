@@ -1,18 +1,10 @@
-import { generatePhotos } from './mocks/generate.mjs';
 import { renderUserPhotos } from './render-photos.mjs';
-import { onClickUserPhoto, onKeyDownUserPhoto, elementPhotos } from './modal-window-photo-view.mjs';
-import { PHOTO_COUNT } from './mocks/const.mjs';
-import { onButtonLoadChange, inputLoadElement } from './working-form.mjs';
+import { addHandlerPhotosElment } from './modal-window-photo-view.mjs';
 
-const photos = generatePhotos(PHOTO_COUNT);
-
-const addedHandlerPhotosElment = () => {
-  elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
-  elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
-  inputLoadElement.addEventListener('change', () => {
-    onButtonLoadChange();
+fetch('https://28.javascript.pages.academy/kekstagram/data')
+  .then((response) => response.json())
+  .then((photosLoad) => {
+    renderUserPhotos(photosLoad);
+    addHandlerPhotosElment(photosLoad);
   });
-};
 
-renderUserPhotos(photos);
-addedHandlerPhotosElment();

@@ -1,4 +1,3 @@
-/* global noUiSlider:readonly */
 const rangeValue = {
   'chrome': {
     range: {
@@ -78,11 +77,13 @@ const onFormChange = (evt) => {
       sliderContainer.removeAttribute('hidden');
       effectLevelSlider.noUiSlider.updateOptions(rangeValue[currentEffect]);
     }
+    evt.target.checked = true;
     setNewEffect(effectLevelSlider.noUiSlider.get());
   }
 };
 
 const resetEffectsData = () => {
+  document.querySelector('#effect-none').setAttribute('checked', 'true');
   form.removeEventListener('change', {handleEvent: onFormChange});
   effectLevelSlider.noUiSlider.destroy();
 };
@@ -102,6 +103,7 @@ const createSlider = () => {
   });
 
   effectLevelSlider.noUiSlider.on('update', () => {
+    // document.querySelector('#effect-none').checked = true;
     const sliderValue = effectLevelSlider.noUiSlider.get();
     valueEffectLevel.value = sliderValue;
     setNewEffect(sliderValue);

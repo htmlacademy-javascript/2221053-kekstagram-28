@@ -1,5 +1,5 @@
 import { isEsc, isEnter } from './utils.mjs';
-//import { buttonLoadElement } from './working-form.mjs';
+import { onButtonLoadChange, inputLoadElement } from './working-form.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
 const modal = document.querySelector('.big-picture');
@@ -11,11 +11,11 @@ const elementPhotos = document.querySelector('.pictures');
 
 let numberCommentsDisplayed;
 let photoData = null;
+let photoArray;
 
 const renderComment = (comment) => {
   const elementComment = document.createElement('li');
   elementComment.classList.add('social__comment');
-  //добавление информации комментария
   const elementAvatar = document.createElement('img');
   elementAvatar.classList.add('social__picture');
   elementAvatar.src = comment.avatar;
@@ -23,11 +23,9 @@ const renderComment = (comment) => {
   elementAvatar.width = '35';
   elementAvatar.height = '35';
   elementComment.appendChild(elementAvatar);
-  //добавление текста сообщения
   const elementCommentText = document.createElement('p');
   elementCommentText.textContent = comment.message;
   elementComment.appendChild(elementCommentText);
-  //возвращаеми элемент списка
   return elementComment;
 };
 
@@ -114,9 +112,9 @@ const generatedContenetModal = () => {
   buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
 };
 
-const ShowModalPhotoWindow = (photoElement, photos) => {
-  const id = photoElement.getAttribute('data-id');
-  photoData = photos.find((item) => item.id === +id);
+const ShowModalPhotoWindow = (photoElement) => {
+  const id = +photoElement.dataset.id;
+  photoData = photoArray.find((item) => item.id === id);
 
   numberCommentsDisplayed = 0;
 
@@ -138,5 +136,13 @@ function onKeyDownUserPhoto(evt) {
   }
 }
 
+const addHandlerPhotosElment = (photos) => {
+  photoArray = photos;
+  elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
+  elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
+  inputLoadElement.addEventListener('change', () => {
+    onButtonLoadChange();
+  });
+};
 
-export { onClickUserPhoto, onKeyDownUserPhoto, elementPhotos };
+export { addHandlerPhotosElment };
