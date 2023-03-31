@@ -1,4 +1,4 @@
-import { isEnter, isEsc } from './utils.mjs';
+import { isEnter, isEsc, viewErrorMessage } from './utils.mjs';
 import { createSlider, resetEffectsData } from './effect-photo.mjs';
 
 const MAX_HASH_TAGS_COUNT = 5;
@@ -29,18 +29,19 @@ const pristine = new Pristine(form, {
  */
 const closedOverlayBlock = () => {
   scalePhotoValueElement.value = '100%';
+  photoPreviewElement.style = 'transform: none';
   hashTagInputElement.value = '';
   descriptionInputElement.value = '';
-  overlayBlockElement.classList.add('hidden');
   overlayButtonClose.removeEventListener('click', onOverlayButtonCloseClick);
   overlayButtonClose.removeEventListener('keydown', onOverlayButtonCloseKeydown);
   document.removeEventListener('keydown', onDocumentKeyDown);
-  hashTagInputElement.removeEventListener('keydown', {handleEvent: onInputElementKeydown});
+  hashTagInputElement.removeEventListener('change', {handleEvent: onInputElementKeydown});
   descriptionInputElement.removeEventListener('keydown', {handleEvent: onInputElementKeydown});
   form.removeEventListener('submit', {handleEvent: onFormSubmit});
   fieldScaleElement.removeEventListener('click', {handleEvent: onFieldScaleElementClick});
   fieldScaleElement.removeEventListener('keydown', {handleEvent: onFieldScaleElementKeydown});
   resetEffectsData();
+  overlayBlockElement.classList.add('hidden');
 };
 
 const changeSizePhotoPreview = (evt) => {
@@ -83,9 +84,25 @@ function onFormSubmit(evt) {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    console.log('можно отправлять');
+    const formData = new FormData(evt.target);
+    fetch('https://28.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData
+      })
+      .then((response) => {
+        if (response.ok) {
+          closedOverlayBlock();
+        } else {
+          const err = new Error('Не удалось отправить форму. Попробуйте еще раз.');
+          throw err;
+        }
+      })
+      .catch((err) => {
+        viewErrorMessage(err);
+      });
   } else {
-    console.log('нельзя отправлять');
+    viewErrorMessage('Данные заполнены не корректно. Проверьте правильность заполнения полей и отправьте форму заново.');
   }
 }
 
@@ -149,14 +166,14 @@ const checkUniquenessHachTags = () => {
     .toLowerCase()
     .trim()
     .split(/\s+/);
-  return [... new Set(listHashTags)].length === listHashTags.length;
+  return [...new Set(listHashTags)].length === listHashTags.length;
 };
 
 const onButtonLoadChange = () => {
   document.querySelector('#effect-none').checked = true;
   createSlider();
   overlayBlockElement.classList.remove('hidden');
-  hashTagInputElement.addEventListener('keydown', {handleEvent: onInputElementKeydown});
+  hashTagInputElement.addEventListener('change', {handleEvent: onInputElementKeydown});
   descriptionInputElement.addEventListener('keydown', {handleEvent: onInputElementKeydown});
   overlayButtonClose.addEventListener('click', onOverlayButtonCloseClick);
   overlayButtonClose.addEventListener('keydown', onOverlayButtonCloseKeydown);

@@ -113,6 +113,7 @@ const generatedContenetModal = () => {
 };
 
 const ShowModalPhotoWindow = (photoElement) => {
+  document.body.classList.add('modal-open');
   const id = +photoElement.dataset.id;
   photoData = photoArray.find((item) => item.id === id);
 
