@@ -1,5 +1,4 @@
 import { isEsc, isEnter } from './utils.mjs';
-import { onButtonLoadChange, inputLoadElement } from './working-form.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
 const modal = document.querySelector('.big-picture');
@@ -142,9 +141,6 @@ const addHandlerPhotosElment = (photos) => {
   photoArray = photos;
   elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
   elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
-  inputLoadElement.addEventListener('change', () => {
-    onButtonLoadChange();
-  });
 };
 
 export { addHandlerPhotosElment };

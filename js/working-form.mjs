@@ -149,6 +149,9 @@ const addHandlesForm = () => {
   pristine.addValidator(hashTagInputElement, checkHashTagsCount, 'Максимум 5 хэш-тегов.');
   pristine.addValidator(hashTagInputElement, checkHashTagsCorrect, 'Хэш-тег должен начинаться с # и быть не длиннее 20 симовлов.');
   pristine.addValidator(hashTagInputElement, checkUniquenessHachTags, 'Хэш-теги не должны повторяться.');
+  inputLoadElement.addEventListener('change', () => {
+    onButtonLoadChange();
+  });
 };
 
-export { onButtonLoadChange, inputLoadElement, addHandlesForm };
+export { addHandlesForm };
