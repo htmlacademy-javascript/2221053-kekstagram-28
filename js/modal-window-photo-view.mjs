@@ -1,5 +1,4 @@
 import { isEsc, isEnter } from './utils.mjs';
-//import { buttonLoadElement } from './working-form.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
 const modal = document.querySelector('.big-picture');
@@ -15,7 +14,6 @@ let photoData = null;
 const renderComment = (comment) => {
   const elementComment = document.createElement('li');
   elementComment.classList.add('social__comment');
-  //добавление информации комментария
   const elementAvatar = document.createElement('img');
   elementAvatar.classList.add('social__picture');
   elementAvatar.src = comment.avatar;
@@ -23,11 +21,9 @@ const renderComment = (comment) => {
   elementAvatar.width = '35';
   elementAvatar.height = '35';
   elementComment.appendChild(elementAvatar);
-  //добавление текста сообщения
   const elementCommentText = document.createElement('p');
   elementCommentText.textContent = comment.message;
   elementComment.appendChild(elementCommentText);
-  //возвращаеми элемент списка
   return elementComment;
 };
 
@@ -76,6 +72,7 @@ const closemodalWindowPhoto = () => {
   buttonCloseModal.removeEventListener('click', onButtonClosemodalPhotoWindowClick);
   buttonCloseModal.removeEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
   buttonCommentsLoader.classList.remove('hidden');
+  document.body.classList.remove('modal-open');
 };
 
 function onModalPhotoWindowEscKeydown(evt) {
@@ -115,8 +112,9 @@ const generatedContenetModal = () => {
 };
 
 const ShowModalPhotoWindow = (photoElement, photos) => {
-  const id = photoElement.getAttribute('data-id');
-  photoData = photos.find((item) => item.id === +id);
+  document.body.classList.add('modal-open');
+  const id = +photoElement.dataset.id;
+  photoData = photos.find((item) => item.id === id);
 
   numberCommentsDisplayed = 0;
 
@@ -138,5 +136,9 @@ function onKeyDownUserPhoto(evt) {
   }
 }
 
+const addHandlersPhotosElement = (photos) => {
+  elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
+  elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
+};
 
-export { onClickUserPhoto, onKeyDownUserPhoto, elementPhotos };
+export { addHandlersPhotosElement };

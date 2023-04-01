@@ -1,18 +1,36 @@
-import { generatePhotos } from './mocks/generate.mjs';
 import { renderUserPhotos } from './render-photos.mjs';
-import { onClickUserPhoto, onKeyDownUserPhoto, elementPhotos } from './modal-window-photo-view.mjs';
-import { PHOTO_COUNT } from './mocks/const.mjs';
-import { onButtonLoadChange, inputLoadElement } from './working-form.mjs';
+import { addHandlersPhotosElement } from './modal-window-photo-view.mjs';
+import { addHandlesForm } from './working-form.mjs';
+import { getData } from './requests.mjs';
 
-const photos = generatePhotos(PHOTO_COUNT);
+const ALERT_SHOW_TIME = 5000;
 
-const addedHandlerPhotosElment = () => {
-  elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
-  elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
-  inputLoadElement.addEventListener('change', () => {
-    onButtonLoadChange();
-  });
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-renderUserPhotos(photos);
-addedHandlerPhotosElment();
+getData()
+  .then((phohtosData) => {
+    addHandlersPhotosElement(phohtosData);
+    renderUserPhotos(phohtosData);
+  })
+  .catch((err) => showAlert(err.message));
+
+addHandlesForm();
