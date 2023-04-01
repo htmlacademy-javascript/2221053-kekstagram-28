@@ -10,7 +10,6 @@ const elementPhotos = document.querySelector('.pictures');
 
 let numberCommentsDisplayed;
 let photoData = null;
-let photoArray;
 
 const renderComment = (comment) => {
   const elementComment = document.createElement('li');
@@ -112,10 +111,10 @@ const generatedContenetModal = () => {
   buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
 };
 
-const ShowModalPhotoWindow = (photoElement) => {
+const ShowModalPhotoWindow = (photoElement, photos) => {
   document.body.classList.add('modal-open');
   const id = +photoElement.dataset.id;
-  photoData = photoArray.find((item) => item.id === id);
+  photoData = photos.find((item) => item.id === id);
 
   numberCommentsDisplayed = 0;
 
@@ -137,10 +136,9 @@ function onKeyDownUserPhoto(evt) {
   }
 }
 
-const addHandlerPhotosElment = (photos) => {
-  photoArray = photos;
+const addHandlersPhotosElement = (photos) => {
   elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
   elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
 };
 
-export { addHandlerPhotosElment };
+export { addHandlersPhotosElement };

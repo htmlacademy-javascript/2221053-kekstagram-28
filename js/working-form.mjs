@@ -1,6 +1,7 @@
-import { isEnter, isEsc, viewErrorMessage } from './utils.mjs';
+import { isEnter, isEsc } from './utils.mjs';
 import { createSlider, resetEffectsData } from './effect-photo.mjs';
 import { onFormChange, onFieldScaleElementClick, onFieldScaleElementKeydown } from './effect-photo.mjs';
+import { sendData, createAlerttOk, createAlerttError } from './requests.mjs';
 
 const MAX_HASH_TAGS_COUNT = 5;
 
@@ -10,6 +11,7 @@ const overlayBlockElement = form.querySelector('.img-upload__overlay');
 const overlayButtonClose = form.querySelector('.img-upload__cancel');
 const hashTagInputElement = overlayBlockElement.querySelector('.text__hashtags');
 const descriptionInputElement = overlayBlockElement.querySelector('.text__description');
+const buttonSubmit = form.querySelector('#upload-submit');
 
 const fieldScaleElement = form.querySelector('.scale');//Блок для задания масштаба изображения
 
@@ -47,29 +49,25 @@ function onDocumentKeyDown(evt) {
   }
 }
 
+const showAlertOk = createAlerttOk();
+const showAlertError = createAlerttError();
+
 function onFormSubmit(evt) {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    const formData = new FormData(evt.target);
-    fetch('https://28.javascript.pages.academy/kekstagram',
-      {
-        method: 'POST',
-        body: formData
+    buttonSubmit.disabled = true;
+    sendData(new FormData(evt.target))
+      .then(() => {
+        closedOverlayBlock();
+        showAlertOk();
       })
-      .then((response) => {
-        if (response.ok) {
-          closedOverlayBlock();
-        } else {
-          const err = new Error('Не удалось отправить форму. Попробуйте еще раз.');
-          throw err;
+      .catch(
+        () => {
+          showAlertError();
         }
-      })
-      .catch((err) => {
-        viewErrorMessage(err);
-      });
-  } else {
-    viewErrorMessage('Данные заполнены не корректно. Проверьте правильность заполнения полей и отправьте форму заново.');
+      );
+    buttonSubmit.disabled = false;
   }
 }
 

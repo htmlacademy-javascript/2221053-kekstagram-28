@@ -105,11 +105,10 @@ const setNewEffect = (sliderValue) => {
 
 const onFormChange = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
-    if (evt.target.id === 'effect-none') {
+    currentEffect = evt.target.value;
+    if (currentEffect === 'none') {
       sliderContainer.setAttribute('hidden', 'true');
-      currentEffect = 'none';
     } else {
-      currentEffect = evt.target.id.replace('effect-','');
       sliderContainer.removeAttribute('hidden');
       effectLevelSlider.noUiSlider.updateOptions(rangeValue[currentEffect]);
     }
