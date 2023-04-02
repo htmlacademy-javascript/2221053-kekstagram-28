@@ -78,11 +78,7 @@ const changeSizePhotoPreview = (evt) => {
 };
 
 function onFieldScaleElementClick(evt) {
-  changeSizePhotoPreview(evt);
-}
-
-function onFieldScaleElementKeydown(evt) {
-  if (isEnter(evt.key)) {
+  if (evt.target.tagName === 'BUTTON') {
     changeSizePhotoPreview(evt);
   }
 }
@@ -150,4 +146,4 @@ const createSlider = () => {
 
 };
 
-export { createSlider, resetEffectsData, onFormChange, onFieldScaleElementClick, onFieldScaleElementKeydown };
+export { createSlider, resetEffectsData, onFormChange, onFieldScaleElementClick };

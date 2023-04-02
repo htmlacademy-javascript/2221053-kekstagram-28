@@ -1,6 +1,6 @@
-import { isEnter, isEsc } from './utils.mjs';
+import { isEsc } from './utils.mjs';
 import { createSlider, resetEffectsData } from './effect-photo.mjs';
-import { onFormChange, onFieldScaleElementClick, onFieldScaleElementKeydown } from './effect-photo.mjs';
+import { onFormChange, onFieldScaleElementClick } from './effect-photo.mjs';
 import { sendData, createAlerttOk, createAlerttError } from './requests.mjs';
 
 const MAX_HASH_TAGS_COUNT = 5;
@@ -134,7 +134,6 @@ const addHandlesForm = () => {
   document.addEventListener('keydown', onDocumentKeyDown);
   form.addEventListener('submit', onFormSubmit);
   fieldScaleElement.addEventListener('click', onFieldScaleElementClick);
-  fieldScaleElement.addEventListener('keydown', onFieldScaleElementKeydown);
   form.addEventListener('change', onFormChange);
 
   pristine.addValidator(hashTagInputElement, checkHashTagsCount, 'Максимум 5 хэш-тегов.');
