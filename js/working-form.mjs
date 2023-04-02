@@ -37,12 +37,6 @@ function onOverlayButtonCloseClick() {
   closedOverlayBlock();
 }
 
-function onOverlayButtonCloseKeydown(evt) {
-  if (isEnter(evt.key)) {
-    closedOverlayBlock();
-  }
-}
-
 function onDocumentKeyDown(evt) {
   if (isEsc(evt.key)) {
     closedOverlayBlock();
@@ -137,7 +131,6 @@ const addHandlesForm = () => {
   hashTagInputElement.addEventListener('keydown', onInputElementKeydown);
   descriptionInputElement.addEventListener('keydown', onInputElementKeydown);
   overlayButtonClose.addEventListener('click', onOverlayButtonCloseClick);
-  overlayButtonClose.addEventListener('keydown', onOverlayButtonCloseKeydown);
   document.addEventListener('keydown', onDocumentKeyDown);
   form.addEventListener('submit', onFormSubmit);
   fieldScaleElement.addEventListener('click', onFieldScaleElementClick);

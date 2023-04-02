@@ -123,6 +123,7 @@ const resetEffectsData = () => {
   photoPreviewElement.style.filter = 'none';
   scalePhotoValueElement.value = '100%';
   currentEffect = 'none';
+  photoPreviewElement.style.transform = 'none';
 };
 
 /**
