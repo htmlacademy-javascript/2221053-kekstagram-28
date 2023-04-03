@@ -1,5 +1,3 @@
-import { isEnter } from './utils.mjs';
-
 const MIN_VALUE = 25;
 const MAX_VALUE = 100;
 const STEP = 25;

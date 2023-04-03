@@ -1,7 +1,7 @@
 import { isEsc } from './utils.mjs';
 import { createSlider, resetEffectsData } from './effect-photo.mjs';
 import { onFormChange, onFieldScaleElementClick } from './effect-photo.mjs';
-import { sendData, createAlerttOk, createAlerttError } from './requests.mjs';
+import { sendData, createAlert } from './requests.mjs';
 
 const MAX_HASH_TAGS_COUNT = 5;
 
@@ -43,8 +43,8 @@ function onDocumentKeyDown(evt) {
   }
 }
 
-const showAlertOk = createAlerttOk();
-const showAlertError = createAlerttError();
+const showAlertOk = createAlert('success');
+const showAlertError = createAlert('error');
 
 function onFormSubmit(evt) {
   evt.preventDefault();
