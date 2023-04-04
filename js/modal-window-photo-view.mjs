@@ -1,6 +1,7 @@
 import { isEsc, isEnter } from './utils.mjs';
 
 const COMMENT_COUNT_ADDED = 5;
+
 const modal = document.querySelector('.big-picture');
 const numberCommentForPhoto = modal.querySelector('.social__comment-count');
 const buttonCommentsLoader = modal.querySelector('.social__comments-loader');
@@ -64,7 +65,7 @@ function onButtonLoadCommentsEnterKeydown(evt) {
   }
 }
 
-const closemodalWindowPhoto = () => {
+const closeModalWindowPhoto = () => {
   modal.classList.add('hidden');
   buttonCommentsLoader.removeEventListener('click', onButtonLoadCommentsClick);
   buttonCommentsLoader.removeEventListener('keydown', onButtonLoadCommentsEnterKeydown);
@@ -78,25 +79,25 @@ const closemodalWindowPhoto = () => {
 function onModalPhotoWindowEscKeydown(evt) {
   if (isEsc(evt.key)) {
     evt.preventDefault();
-    closemodalWindowPhoto();
+    closeModalWindowPhoto();
   }
 }
 
 function onButtonClosemodalPhotoWindowEnterKeydown(evt) {
   if (isEnter(evt.key)) {
     evt.preventDefault();
-    closemodalWindowPhoto();
+    closeModalWindowPhoto();
   }
 }
 
 function onButtonClosemodalPhotoWindowClick() {
-  closemodalWindowPhoto();
+  closeModalWindowPhoto();
 }
 
 /**
   * Формирование содержимого модального окна просмотра фотографии пользователя
 */
-const generatedContenetModal = () => {
+const generateContenetModal = () => {
   modal.querySelector('.social__comments').remove();
   numberCommentForPhoto.insertAdjacentHTML('afterend', '<ul class="social__comments"></ul>');
 
@@ -111,34 +112,34 @@ const generatedContenetModal = () => {
   buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
 };
 
-const ShowModalPhotoWindow = (photoElement, photos) => {
+const showModalPhotoWindow = (photoElement, photos) => {
   document.body.classList.add('modal-open');
   const id = +photoElement.dataset.id;
   photoData = photos.find((item) => item.id === id);
 
   numberCommentsDisplayed = 0;
 
-  generatedContenetModal(photoData);
+  generateContenetModal(photoData);
   modal.classList.remove('hidden');
 };
 
-function onClickUserPhoto(evt) {
+function onUserPhotoClick(evt) {
   if (evt.target.classList.contains('picture__img')) {
     evt.preventDefault();
-    ShowModalPhotoWindow(evt.target, this.photoList);
+    showModalPhotoWindow(evt.target, this.photoList);
   }
 }
 
-function onKeyDownUserPhoto(evt) {
+function onUserPhotoKeyDown(evt) {
   if (isEnter(evt.key)) {
     evt.preventDefault();
-    ShowModalPhotoWindow(evt.target.querySelector('.picture__img'), this.photoList);
+    showModalPhotoWindow(evt.target.querySelector('.picture__img'), this.photoList);
   }
 }
 
 const addHandlersPhotosElement = (photos) => {
-  elementPhotos.addEventListener('click', {handleEvent: onClickUserPhoto, photoList: photos});
-  elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onKeyDownUserPhoto, photoList: photos});
+  elementPhotos.addEventListener('click', {handleEvent: onUserPhotoClick, photoList: photos});
+  elementPhotos.parentElement.addEventListener('keydown', {handleEvent: onUserPhotoKeyDown, photoList: photos});
 };
 
 export { addHandlersPhotosElement };

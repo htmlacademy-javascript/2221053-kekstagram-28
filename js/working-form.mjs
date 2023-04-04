@@ -3,15 +3,17 @@ import { createSlider, resetEffectsData } from './effect-photo.mjs';
 import { onFormChange, onFieldScaleElementClick } from './effect-photo.mjs';
 import { sendData, createAlert } from './requests.mjs';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_HASH_TAGS_COUNT = 5;
 
 const form = document.querySelector('.img-upload__form');
-const inputLoadElement = form.querySelector('#upload-file');
+const inputLoadElement = form.querySelector('#upload-file'); //Поле для ввода фотографии
 const overlayBlockElement = form.querySelector('.img-upload__overlay');
 const overlayButtonClose = form.querySelector('.img-upload__cancel');
 const hashTagInputElement = overlayBlockElement.querySelector('.text__hashtags');
 const descriptionInputElement = overlayBlockElement.querySelector('.text__description');
 const buttonSubmit = form.querySelector('#upload-submit');
+const photoPreviewElement = form.querySelector('.img-upload__preview').querySelector('img'); //Превью фотографии
 
 const fieldScaleElement = form.querySelector('.scale');//Блок для задания масштаба изображения
 
@@ -25,7 +27,7 @@ const pristine = new Pristine(form, {
 /**
  * Функция выполняет закрытие окна редактировани эффектов для фотографии
  */
-const closedOverlayBlock = () => {
+const closeOverlayBlock = () => {
   hashTagInputElement.value = '';
   descriptionInputElement.value = '';
   pristine.reset();
@@ -34,12 +36,12 @@ const closedOverlayBlock = () => {
 };
 
 function onOverlayButtonCloseClick() {
-  closedOverlayBlock();
+  closeOverlayBlock();
 }
 
 function onDocumentKeyDown(evt) {
   if (isEsc(evt.key)) {
-    closedOverlayBlock();
+    closeOverlayBlock();
   }
 }
 
@@ -53,7 +55,7 @@ function onFormSubmit(evt) {
     buttonSubmit.disabled = true;
     sendData(new FormData(evt.target))
       .then(() => {
-        closedOverlayBlock();
+        closeOverlayBlock();
         showAlertOk();
       })
       .catch(
@@ -119,9 +121,15 @@ const checkUniquenessHachTags = () => {
 };
 
 const onButtonLoadChange = () => {
-  document.querySelector('#effect-none').checked = true;
-  createSlider();
-  overlayBlockElement.classList.remove('hidden');
+  const file = inputLoadElement.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    document.querySelector('#effect-none').checked = true;
+    createSlider();
+    photoPreviewElement.src = URL.createObjectURL(file);
+    overlayBlockElement.classList.remove('hidden');
+  }
 };
 
 /**
