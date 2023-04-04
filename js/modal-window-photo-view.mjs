@@ -111,7 +111,7 @@ const generatedContenetModal = () => {
   buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
 };
 
-const ShowModalPhotoWindow = (photoElement, photos) => {
+const showModalPhotoWindow = (photoElement, photos) => {
   document.body.classList.add('modal-open');
   const id = +photoElement.dataset.id;
   photoData = photos.find((item) => item.id === id);
@@ -125,14 +125,14 @@ const ShowModalPhotoWindow = (photoElement, photos) => {
 function onClickUserPhoto(evt) {
   if (evt.target.classList.contains('picture__img')) {
     evt.preventDefault();
-    ShowModalPhotoWindow(evt.target, this.photoList);
+    showModalPhotoWindow(evt.target, this.photoList);
   }
 }
 
 function onKeyDownUserPhoto(evt) {
   if (isEnter(evt.key)) {
     evt.preventDefault();
-    ShowModalPhotoWindow(evt.target.querySelector('.picture__img'), this.photoList);
+    showModalPhotoWindow(evt.target.querySelector('.picture__img'), this.photoList);
   }
 }
 
