@@ -1,4 +1,5 @@
 import { isEnter, isEsc } from './utils.mjs';
+
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
 const Route = {
   GET_DATA: '/data',

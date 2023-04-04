@@ -3,6 +3,7 @@ import { createSlider, resetEffectsData } from './effect-photo.mjs';
 import { onFormChange, onFieldScaleElementClick } from './effect-photo.mjs';
 import { sendData, createAlert } from './requests.mjs';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_HASH_TAGS_COUNT = 5;
 
 const form = document.querySelector('.img-upload__form');
@@ -26,7 +27,7 @@ const pristine = new Pristine(form, {
 /**
  * Функция выполняет закрытие окна редактировани эффектов для фотографии
  */
-const closedOverlayBlock = () => {
+const closeOverlayBlock = () => {
   hashTagInputElement.value = '';
   descriptionInputElement.value = '';
   pristine.reset();
@@ -35,12 +36,12 @@ const closedOverlayBlock = () => {
 };
 
 function onOverlayButtonCloseClick() {
-  closedOverlayBlock();
+  closeOverlayBlock();
 }
 
 function onDocumentKeyDown(evt) {
   if (isEsc(evt.key)) {
-    closedOverlayBlock();
+    closeOverlayBlock();
   }
 }
 
@@ -54,7 +55,7 @@ function onFormSubmit(evt) {
     buttonSubmit.disabled = true;
     sendData(new FormData(evt.target))
       .then(() => {
-        closedOverlayBlock();
+        closeOverlayBlock();
         showAlertOk();
       })
       .catch(
@@ -120,7 +121,6 @@ const checkUniquenessHachTags = () => {
 };
 
 const onButtonLoadChange = () => {
-  const FILE_TYPES = ['jpg', 'jpeg', 'png'];
   const file = inputLoadElement.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
