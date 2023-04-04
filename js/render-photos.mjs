@@ -1,6 +1,13 @@
 const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
 const photosElement = document.querySelector('.pictures');
 
+const clearPhotos = () => {
+  const photos = document.querySelectorAll('.picture');
+  photos.forEach((item) => {
+    item.remove();
+  });
+};
+
 const createTemplatePhoto = (photo) => {
   const pictureElement = templatePhoto.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = photo.url;
@@ -20,6 +27,8 @@ const renderPhotoList = (list) => {
 };
 
 const renderUserPhotos = (photos) => {
+  clearPhotos();
+  // photosElement.innerHTML = sectionUploadFile;
   photosElement.appendChild(renderPhotoList(photos));
 };
 

@@ -1,7 +1,7 @@
-import { isEnter, isEsc } from './utils.mjs';
+import { isEsc } from './utils.mjs';
 import { createSlider, resetEffectsData } from './effect-photo.mjs';
-import { onFormChange, onFieldScaleElementClick, onFieldScaleElementKeydown } from './effect-photo.mjs';
-import { sendData, createAlerttOk, createAlerttError } from './requests.mjs';
+import { onFormChange, onFieldScaleElementClick } from './effect-photo.mjs';
+import { sendData, createAlert } from './requests.mjs';
 
 const MAX_HASH_TAGS_COUNT = 5;
 
@@ -37,20 +37,14 @@ function onOverlayButtonCloseClick() {
   closedOverlayBlock();
 }
 
-function onOverlayButtonCloseKeydown(evt) {
-  if (isEnter(evt.key)) {
-    closedOverlayBlock();
-  }
-}
-
 function onDocumentKeyDown(evt) {
   if (isEsc(evt.key)) {
     closedOverlayBlock();
   }
 }
 
-const showAlertOk = createAlerttOk();
-const showAlertError = createAlerttError();
+const showAlertOk = createAlert('success');
+const showAlertError = createAlert('error');
 
 function onFormSubmit(evt) {
   evt.preventDefault();
@@ -137,11 +131,9 @@ const addHandlesForm = () => {
   hashTagInputElement.addEventListener('keydown', onInputElementKeydown);
   descriptionInputElement.addEventListener('keydown', onInputElementKeydown);
   overlayButtonClose.addEventListener('click', onOverlayButtonCloseClick);
-  overlayButtonClose.addEventListener('keydown', onOverlayButtonCloseKeydown);
   document.addEventListener('keydown', onDocumentKeyDown);
   form.addEventListener('submit', onFormSubmit);
   fieldScaleElement.addEventListener('click', onFieldScaleElementClick);
-  fieldScaleElement.addEventListener('keydown', onFieldScaleElementKeydown);
   form.addEventListener('change', onFormChange);
 
   pristine.addValidator(hashTagInputElement, checkHashTagsCount, 'Максимум 5 хэш-тегов.');

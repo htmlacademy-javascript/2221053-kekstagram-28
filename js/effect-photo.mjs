@@ -1,5 +1,3 @@
-import { isEnter } from './utils.mjs';
-
 const MIN_VALUE = 25;
 const MAX_VALUE = 100;
 const STEP = 25;
@@ -78,11 +76,7 @@ const changeSizePhotoPreview = (evt) => {
 };
 
 function onFieldScaleElementClick(evt) {
-  changeSizePhotoPreview(evt);
-}
-
-function onFieldScaleElementKeydown(evt) {
-  if (isEnter(evt.key)) {
+  if (evt.target.tagName === 'BUTTON') {
     changeSizePhotoPreview(evt);
   }
 }
@@ -123,6 +117,7 @@ const resetEffectsData = () => {
   photoPreviewElement.style.filter = 'none';
   scalePhotoValueElement.value = '100%';
   currentEffect = 'none';
+  photoPreviewElement.style.transform = 'none';
 };
 
 /**
@@ -149,4 +144,4 @@ const createSlider = () => {
 
 };
 
-export { createSlider, resetEffectsData, onFormChange, onFieldScaleElementClick, onFieldScaleElementKeydown };
+export { createSlider, resetEffectsData, onFormChange, onFieldScaleElementClick };
