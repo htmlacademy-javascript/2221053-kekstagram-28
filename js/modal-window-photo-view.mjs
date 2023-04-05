@@ -106,7 +106,6 @@ const generateContenetModal = () => {
   renderCommentList(photoData.comments);
 
   buttonCloseModal.addEventListener('click', onButtonClosemodalPhotoWindowClick);
-  document.addEventListener('keydown', onModalPhotoWindowEscKeydown);
   buttonCloseModal.addEventListener('keydown', onButtonClosemodalPhotoWindowEnterKeydown);
   buttonCommentsLoader.addEventListener('click', onButtonLoadCommentsClick);
   buttonCommentsLoader.addEventListener('keydown', onButtonLoadCommentsEnterKeydown);
@@ -121,6 +120,7 @@ const showModalPhotoWindow = (photoElement, photos) => {
 
   generateContenetModal(photoData);
   modal.classList.remove('hidden');
+  document.addEventListener('keydown', onModalPhotoWindowEscKeydown);
 };
 
 function onUserPhotoClick(evt) {
