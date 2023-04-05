@@ -1,4 +1,5 @@
 import { isEnter, isEsc } from './utils.mjs';
+import { onDocumentKeyDown } from './working-form.mjs';
 
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
 const Route = {
@@ -16,7 +17,7 @@ const ErrorText = {
 
 /**
  * Создает модальное окно с результатом отправки фотографии на сервер
- * @param {string} alertType - определяет тип модального окна (succes - отправка фотографии прошла успешно, error - произошла ошибка при отправке файла.)
+ * @param {string} alertType - определяет тип модального окна (success - отправка фотографии прошла успешно, error - произошла ошибка при отправке файла.)
  * @returns ссылка на функцию открытия модального окна
  */
 const createAlert = (alertType) => {
@@ -38,20 +39,21 @@ const createAlert = (alertType) => {
       elementSection.classList.add('hidden');
     }
   };
-  const onDocumentKeydown = (evt) => {
+  const onDocumentKeydownForAlert = (evt) => {
     if (isEsc(evt.key)) {
+      document.addEventListener('keydown', onDocumentKeyDown);
       elementSection.classList.add('hidden');
+      document.removeEventListener('keydown', onDocumentKeydownForAlert);
     }
   };
   elementSection.addEventListener('click', onAlertClick);
   elementButton.addEventListener('keydown', onAlertButtonKeydown);
-  document.addEventListener('keydown', onDocumentKeydown);
 
   return () => {
     elementSection.classList.remove('hidden');
+    document.addEventListener('keydown', onDocumentKeydownForAlert);
   };
 };
-
 
 const ALERT_SHOW_TIME = 5000;
 

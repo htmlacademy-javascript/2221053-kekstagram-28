@@ -32,6 +32,7 @@ const closeOverlayBlock = () => {
   descriptionInputElement.value = '';
   pristine.reset();
   resetEffectsData();
+  document.removeEventListener('keydown', onDocumentKeyDown);
   overlayBlockElement.classList.add('hidden');
 };
 
@@ -60,6 +61,7 @@ function onFormSubmit(evt) {
       })
       .catch(
         () => {
+          document.removeEventListener('keydown', onDocumentKeyDown);
           showAlertError();
         }
       );
@@ -129,6 +131,7 @@ const onButtonLoadChange = () => {
     createSlider();
     photoPreviewElement.src = URL.createObjectURL(file);
     overlayBlockElement.classList.remove('hidden');
+    document.addEventListener('keydown', onDocumentKeyDown);
   }
 };
 
@@ -139,7 +142,6 @@ const addHandlesForm = () => {
   hashTagInputElement.addEventListener('keydown', onInputElementKeydown);
   descriptionInputElement.addEventListener('keydown', onInputElementKeydown);
   overlayButtonClose.addEventListener('click', onOverlayButtonCloseClick);
-  document.addEventListener('keydown', onDocumentKeyDown);
   form.addEventListener('submit', onFormSubmit);
   fieldScaleElement.addEventListener('click', onFieldScaleElementClick);
   form.addEventListener('change', onFormChange);
@@ -152,4 +154,4 @@ const addHandlesForm = () => {
   });
 };
 
-export { addHandlesForm };
+export { addHandlesForm, onDocumentKeyDown };
