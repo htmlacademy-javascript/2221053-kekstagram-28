@@ -30,6 +30,7 @@ const pristine = new Pristine(form, {
 const closeOverlayBlock = () => {
   hashTagInputElement.value = '';
   descriptionInputElement.value = '';
+  inputLoadElement.value = '';
   pristine.reset();
   resetEffectsData();
   document.removeEventListener('keydown', onDocumentKeyDown);
